@@ -1,6 +1,6 @@
 {
 	"info": {
-		"_postman_id": "d0700d24-79ec-487e-8403-b565bef7f8e0",
+		"_postman_id": "a7033982-285e-44a9-89eb-c0614b55c23a",
 		"name": "Udacity Cloud Developer Capstone Project",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
 	},
@@ -19,22 +19,12 @@
 								"type": "text"
 							}
 						],
-						"body": {
-							"mode": "raw",
-							"raw": ""
-						},
 						"url": {
-							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos",
-							"protocol": "https",
+							"raw": "{{baseUri}}/todos",
 							"host": [
-								"{{apiId}}",
-								"execute-api",
-								"us-east-1",
-								"amazonaws",
-								"com"
+								"{{baseUri}}"
 							],
 							"path": [
-								"dev",
 								"todos"
 							]
 						}
@@ -63,17 +53,11 @@
 							"raw": "{\n\t\"name\": \"Water flowers\",\n\t\"dueDate\": \"2019-06-11\"\n}"
 						},
 						"url": {
-							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos",
-							"protocol": "https",
+							"raw": "{{baseUri}}/todos",
 							"host": [
-								"{{apiId}}",
-								"execute-api",
-								"us-east-1",
-								"amazonaws",
-								"com"
+								"{{baseUri}}"
 							],
 							"path": [
-								"dev",
 								"todos"
 							]
 						}
@@ -83,7 +67,7 @@
 				{
 					"name": "Update todo",
 					"request": {
-						"method": "PUT",
+						"method": "PATCH",
 						"header": [
 							{
 								"key": "Content-Type",
@@ -102,19 +86,18 @@
 							"raw": "{\n\t\"name\": \"Change the world\",\n\t\"dueDate\": \"2019-12-11\",\n\t\"done\": true\n}"
 						},
 						"url": {
-							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/35dd600f-43c2-4649-903c-615e1586a26f",
-							"protocol": "https",
+							"raw": "{{baseUri}}/todos?id=654b81cf-4543-457c-bd7e-9e6e95889261",
 							"host": [
-								"{{apiId}}",
-								"execute-api",
-								"us-east-1",
-								"amazonaws",
-								"com"
+								"{{baseUri}}"
 							],
 							"path": [
-								"dev",
-								"todos",
-								"35dd600f-43c2-4649-903c-615e1586a26f"
+								"todos"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "654b81cf-4543-457c-bd7e-9e6e95889261"
+								}
 							]
 						}
 					},
@@ -142,19 +125,18 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/fe671583-4512-45f6-9475-4265c04362fb",
-							"protocol": "https",
+							"raw": "{{baseUri}}/todos?id=f7d9b325-7625-486b-b804-c06c664b8d32",
 							"host": [
-								"{{apiId}}",
-								"execute-api",
-								"us-east-1",
-								"amazonaws",
-								"com"
+								"{{baseUri}}"
 							],
 							"path": [
-								"dev",
-								"todos",
-								"fe671583-4512-45f6-9475-4265c04362fb"
+								"todos"
+							],
+							"query": [
+								{
+									"key": "id",
+									"value": "f7d9b325-7625-486b-b804-c06c664b8d32"
+								}
 							]
 						}
 					},
@@ -176,17 +158,11 @@
 							"raw": ""
 						},
 						"url": {
-							"raw": "https://{{apiId}}.execute-api.us-east-1.amazonaws.com/dev/todos/3836b777-9bc4-4429-9b79-ba4e4f5f91c0/attachment",
-							"protocol": "https",
+							"raw": "{{baseUri}}/todos/3836b777-9bc4-4429-9b79-ba4e4f5f91c0/attachment",
 							"host": [
-								"{{apiId}}",
-								"execute-api",
-								"us-east-1",
-								"amazonaws",
-								"com"
+								"{{baseUri}}"
 							],
 							"path": [
-								"dev",
 								"todos",
 								"3836b777-9bc4-4429-9b79-ba4e4f5f91c0",
 								"attachment"
@@ -217,7 +193,8 @@
 						]
 					}
 				}
-			]
+			],
+			"protocolProfileBehavior": {}
 		}
 	],
 	"event": [
@@ -244,16 +221,17 @@
 	],
 	"variable": [
 		{
-			"id": "bf208e6b-f66d-4008-9366-dd541ff65425",
-			"key": "apiId",
-			"value": "",
+			"id": "56d0073a-6199-42e7-9b68-623610254230",
+			"key": "baseUri",
+			"value": "http://localhost:3000/dev",
 			"type": "string"
 		},
 		{
-			"id": "9bc6399a-d2bb-4f2d-9ffa-8480370d383c",
+			"id": "e3c59b71-8af1-487b-a5ea-1f2b401dec49",
 			"key": "authToken",
 			"value": "",
 			"type": "string"
 		}
-	]
+	],
+	"protocolProfileBehavior": {}
 }

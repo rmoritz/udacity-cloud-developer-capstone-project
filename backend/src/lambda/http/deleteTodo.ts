@@ -35,6 +35,6 @@ handler.use(
   cors({ credentials: true })
 )
 
-function getTodoId(event: APIGatewayProxyEvent): string {
-  return event.pathParameters.todoId
+function getTodoId(event: APIGatewayProxyEvent): string {  
+  return event.queryStringParameters.id
 }

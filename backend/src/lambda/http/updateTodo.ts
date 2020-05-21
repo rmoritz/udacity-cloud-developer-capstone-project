@@ -40,7 +40,7 @@ handler.use(
 )
 
 function getTodoId(event: APIGatewayProxyEvent): string {
-  return event.pathParameters.todoId
+  return event.queryStringParameters.id
 }
 
 function getRequest(event: APIGatewayProxyEvent): UpdateTodoRequest {

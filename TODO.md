@@ -9,7 +9,7 @@
 
 ## Non-Functional
 
-- [ ] Validate requests (backend)
+- [x] Validate requests (backend)
 - [ ] Unit tests (both)
 - [ ] Integration tests (backend / postman)
 - [ ] CI/CD (backend)
