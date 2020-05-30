@@ -2,7 +2,6 @@
 
 ## Functional
 
-- [ ] Display name of logged in user (frontend)
 - [ ] Edit TODO item (frontend)
 - [ ] Filter TODO items by name (both)
 - [ ] Filter TODO items by "done/not done" and "due/past due" (both)
