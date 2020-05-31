@@ -7,8 +7,8 @@ import {
 from 'aws-lambda'
 
 import { CreateTodoRequest } from '../../requests/CreateTodoRequest'
-import * as middy from 'middy'
-import { cors } from 'middy/middlewares'
+import middy from '@middy/core'
+import cors from '@middy/http-cors'
 import { createTodoItem } from '../../businessLogic/createTodoItem'
 import { insertTodoItem } from '../../dataLayer/insertTodoItem'
 import { getUserId } from '../utils'

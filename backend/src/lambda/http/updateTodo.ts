@@ -7,8 +7,8 @@ import {
 from 'aws-lambda'
 
 import { UpdateTodoRequest } from '../../requests/UpdateTodoRequest'
-import * as middy from 'middy'
-import { cors } from 'middy/middlewares'
+import middy from '@middy/core'
+import cors from '@middy/http-cors'
 import { createTodoUpdate } from '../../businessLogic/createTodoUpdate'
 import { getUserId } from '../utils'
 import { updateTodoItem } from '../../dataLayer/updateTodoItem'
@@ -40,7 +40,7 @@ handler.use(
 )
 
 function getTodoId(event: APIGatewayProxyEvent): string {
-  return event.pathParameters.todoId
+  return event.queryStringParameters.id
 }
 
 function getRequest(event: APIGatewayProxyEvent): UpdateTodoRequest {

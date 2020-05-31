@@ -8,11 +8,13 @@ plugins:
   - serverless-offline
   - serverless-dotenv-plugin
   - serverless-s3-local
+  - serverless-reqvalidator-plugin
+  - serverless-aws-documentation
 
 custom:
   dynamodb:    
     stages:
-      - dev
+      - offline
     start:
       inMemory: true
       migrate: true
@@ -22,6 +24,42 @@ custom:
     allowMismatchedSignatures: true
     host: localhost
     directory: /tmp
+  documentation:
+    api:
+      info:
+        version: '1.0.0'
+        title: 'todo-v2 api'
+        description: 'Enhanced TODO list API'
+    models:
+      - name: 'CreateTodoRequest'
+        description: 'Request object to create TODO item'
+        contentType: 'application/json'
+        schema:
+          type: 'object'
+          required:
+            - name
+            - dueDate
+          properties:
+            name:
+              type: 'string'
+            dueDate:
+              type: 'string'
+      - name: 'UpdateTodoRequest'
+        description: 'Request object to update a TODO item'
+        contentType: 'application/json'
+        schema:
+          type: 'object'
+          required:
+            - name
+            - dueDate
+            - done
+          properties:
+            name:
+              type: 'string'
+            dueDate:
+              type: 'string'
+            done:
+              type: 'boolean'
 
 package:
   individually: true
@@ -31,7 +69,7 @@ provider:
   runtime: nodejs12.x
   profile: serverless
   stage: ${env:STAGE}
-  region: ${env:AWS_REGION, 'eu-central-1'}
+  region: eu-central-1
   tracing:
     lambda: true
     apiGateway: true
@@ -67,10 +105,16 @@ functions:
     handler: src/lambda/http/createTodo.handler
     events:
       - http:
+          documentation:
+            summary: 'Create a new TODO item'
+            description:  'Create a new TODO item'
+            requestModels:
+              'application/json': CreateTodoRequest
           method: post
           path: todos
           cors: true
           authorizer: Auth
+          reqValidatorName: BodyOnlyValidator
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -86,10 +130,20 @@ functions:
     handler: src/lambda/http/updateTodo.handler
     events:
       - http:
+          documentation:
+            summary: 'Update an existing TODO item'
+            description:  'Update an existing TODO item'
+            requestModels:
+              'application/json': UpdateTodoRequest
+            queryParams:
+              - name: 'id'
+                required: true
+                description: 'ID of the TODO item to update'
           method: patch
-          path: todos/{todoId}
+          path: todos
           cors: true
           authorizer: Auth
+          reqValidatorName: FullValidator
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -105,10 +159,18 @@ functions:
     handler: src/lambda/http/deleteTodo.handler
     events:
       - http:
+          documentation:
+            summary: 'Delete an existing TODO item'
+            description: 'Delete an existing TODO item'
+            queryParams:
+              - name: 'id'
+                required: true
+                description: 'ID of the TODO item to delete'
           method: delete
-          path: todos/{todoId}
+          path: todos
           cors: true
           authorizer: Auth
+          reqValidatorName: ParamsOnlyValidator          
     iamRoleStatements:
       - Effect: Allow
         Action:
@@ -202,3 +264,30 @@ resources:
               Action: s3:getObject
               Resource: arn:aws:s3:::${self:provider.environment.ATTACHMENTS_BUCKET}/*
         Bucket: !Ref AttachmentsBucket
+
+    FullValidator:
+      Type: AWS::ApiGateway::RequestValidator
+      Properties:
+        Name: 'full-validator'
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        ValidateRequestBody: true
+        ValidateRequestParameters: true
+
+    BodyOnlyValidator:
+      Type: AWS::ApiGateway::RequestValidator
+      Properties:
+        Name: 'body-only-validator'
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        ValidateRequestBody: true
+        ValidateRequestParameters: false        
+        
+    ParamsOnlyValidator:
+      Type: AWS::ApiGateway::RequestValidator
+      Properties:
+        Name: 'params-only-validator'
+        RestApiId:
+          Ref: ApiGatewayRestApi
+        ValidateRequestBody: false
+        ValidateRequestParameters: true        

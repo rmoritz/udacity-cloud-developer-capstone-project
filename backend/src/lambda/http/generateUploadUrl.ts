@@ -6,8 +6,8 @@ import {
 }
 from 'aws-lambda'
 
-import * as middy from 'middy'
-import { cors } from 'middy/middlewares'
+import middy from '@middy/core'
+import cors from '@middy/http-cors'
 import { getUserId } from '../utils'
 import { createAttachmentUrlUpdate } from '../../businessLogic/createAttachmentUrlUpdate'
 import { updateAttachmentUrl } from '../../dataLayer/updateAttachmentUrl'

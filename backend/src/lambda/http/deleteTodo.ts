@@ -6,8 +6,8 @@ import {
 }
 from 'aws-lambda'
 
-import * as middy from 'middy'
-import { cors } from 'middy/middlewares'
+import middy from '@middy/core'
+import cors from '@middy/http-cors'
 import { getUserId } from '../utils'
 import { deleteTodoItem } from '../../dataLayer/deleteTodoItem'
 import { createLogger } from '../../utils/logger'
@@ -35,6 +35,6 @@ handler.use(
   cors({ credentials: true })
 )
 
-function getTodoId(event: APIGatewayProxyEvent): string {
-  return event.pathParameters.todoId
+function getTodoId(event: APIGatewayProxyEvent): string {  
+  return event.queryStringParameters.id
 }

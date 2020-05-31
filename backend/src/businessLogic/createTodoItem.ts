@@ -18,4 +18,3 @@ export function createTodoItem(userId: string, request: CreateTodoRequest) : Tod
       ...request
     }
 }
-
